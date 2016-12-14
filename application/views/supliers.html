@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="icon" type="images/png" href="img/icon.png">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="wrapper">
+    <!-- Modal Menambahkan Suplier START -->
+    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">  
+        <div class="modal-content animated bounceIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <i class="fa fa-user modal-icon"></i>
+                    <h4 class="modal-title">Tambah Suplier</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group"><label class="col-lg-4 control-label">Nama Suplier</label>
+                            <div class="col-lg-8"><input type="text" placeholder="Isi nama suplier..." class="form-control"> 
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-4 control-label">Nama Pemilik</label>
+                            <div class="col-lg-8"><input type="text" placeholder="Isi Nama Pemilik..." class="form-control"> 
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-4 control-label">No. Telepon</label>
+                            <div class="col-lg-8"><input type="telp" placeholder="Isi No. Telepon..." class="form-control"> 
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-4 control-label">Alamat</label>
+                            <div class="col-lg-8"><textarea class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Menambahkan Suplier END -->
+    <!-- Header start -->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="img/profile_small.jpg" />
+                             </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="contacts.html">Contacts</a></li>
+                            <li class="divider"></li>
+                            <li><a href="login.html">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        ABC
+                    </div>
+                </li>
+                <li class="active">
+                    <a href="index.html"><i class="fa fa-area-chart"></i> <span class="nav-label">Project</span></a>
+                </li>
+                <li>
+                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Suplier</span></a>
+                </li>
+                <li>
+                    <a href="index.html"><i class="fa fa-bars"></i> <span class="nav-label">Jurnal Umum</span></a>
+                </li>
+                <li>
+                    <a href="index.html"><i class="fa fa-users"></i> <span class="nav-label">Manajemen User</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- header end -->
+
+    <!-- content start -->
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            <form role="search" class="navbar-form-custom" action="http://webapplayers.com/inspinia_admin-v2.3/search_results.html">
+                <div class="form-group">
+                    <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                </div>
+            </form>
+        </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+                </li>
+                <li>
+                    <a href="login.html">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>Projects</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="active">
+                        <strong>Suplier</strong>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content">
+        
+        <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                    Tambah Suplier
+                                </button>
+                            </div>
+                        </div>
+                        
+                    <div class="ibox-content">
+
+                        <div class="table-responsive">
+                    <div class="form-inline dt-bootstrap">
+                        <div class="dataTables_length" >
+                            <label>Menampilkan 
+                                <select class="form-control input-sm">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select> Suplier</label>
+                            </div>
+                            
+                        <div class="col-sm-3 pull-right">
+                                    <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span></div>
+                                </div>
+                        <table class="table table-bordered">
+                    <thead>
+                    <tr role="row">
+                        <th>No.</th>
+                        <th>Nama Suplier</th>
+                        <th>No. telp</th>
+                        <th>Nama Pemilik</th>
+                        <th>Alamat</th>
+                        <th>Merk</th>
+                        <th>Aksi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr role="row">
+                        <td>1</td>
+                        <td>Baso Kifliansyah</td>
+                        <td>089697255525</td>
+                        <td>Baso Kifliansyah</td>
+                        <td>Jl. Kaki No. 1234 Lorong 567, Makassar</td>
+                        <td>A</td>
+                        <td>
+                            <button class="btn btn-info btn-sm" type="button">
+                                <i class="fa fa-paste"></i> Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" type="button">
+                                <i class="fa fa-trash"></i> Hapus
+                            </button>
+                        </td>   
+                    </tr>
+                    <tr class="gradeA odd" role="row">
+                        <td>1</td>
+                        <td>Baso Kifliansyah</td>
+                        <td>089697255525</td>
+                        <td>Baso Kifliansyah</td>
+                        <td>Jl. Kaki No. 1234 Lorong 567, Makassar</td>
+                        <td>A</td>
+                        <td>
+                            <button class="btn btn-info btn-sm" type="button">
+                                <i class="fa fa-paste"></i> Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" type="button">
+                                <i class="fa fa-trash"></i> Hapus
+                            </button>
+                        </td>   
+                    </tr>
+                    </tbody>
+                    </table>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                    <center><ul class="pagination">
+                        <li class="paginate_button previous disabled"><a href="#">Previous</a></li>
+                        <li class="paginate_button active"><a href="#" >1</a></li>
+                        <li class="paginate_button"><a href="#" >2</a></li>
+                        <li class="paginate_button"><a href="#">3</a></li>
+                        <li class="paginate_button"><li class="paginate_button next"><a href="#">Next</a></li>
+                    </ul></center>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+                </div>
+
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            
+        </div>
+        <!-- content end -->
+        <!-- footer start -->
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+        <!-- footer end -->
+        </div>
+    </div> 
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+</body>
+</html>

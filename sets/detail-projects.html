@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="icon" type="images/png" href="img/icon.png">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- style utama pie MULAI -->
+    <style>
+        .pie {
+        position:absolute;
+        width:100px;
+        height:200px;
+        overflow:hidden;
+        left:150px;
+        -moz-transform-origin:left center;
+        -ms-transform-origin:left center;
+        -o-transform-origin:left center;
+        -webkit-transform-origin:left center;
+        transform-origin:left center;
+    }
+
+    .pie.big {
+        width:200px;
+        height:200px;
+        left:50px;
+        -moz-transform-origin:center center;
+        -ms-transform-origin:center center;
+        -o-transform-origin:center center;
+        -webkit-transform-origin:center center;
+        transform-origin:center center;
+    }
+    .pie:BEFORE {
+        content:"";
+        position:absolute;
+        width:100px;
+        height:200px;
+        left:-100px;
+        border-radius:100px 0 0 100px;
+        -moz-transform-origin:right center;
+        -ms-transform-origin:right center;
+        -o-transform-origin:right center;
+        -webkit-transform-origin:right center;
+        transform-origin:right center;
+        
+    }
+    .pie.big:BEFORE {
+        left:0px;
+    }
+    .pie.big:AFTER {
+        content:"";
+        position:absolute;
+        width:100px;
+        height:200px;
+        left:100px;
+        border-radius:0 100px 100px 0;
+    }
+    </style>
+    <!-- style utama pie SELESAI -->
+    <!-- *********************************** -->
+    <!-- Warna pie setiap potong nya MULAI -->
+    <style>
+    .pie:nth-of-type(1):BEFORE,
+    .pie:nth-of-type(1):AFTER {
+        background-color:blue;  
+    }
+    .pie:nth-of-type(2):AFTER,
+    .pie:nth-of-type(2):BEFORE {
+        background-color:green; 
+    }
+    .pie:nth-of-type(3):AFTER,
+    .pie:nth-of-type(3):BEFORE {
+        background-color:red;   
+    }
+    .pie:nth-of-type(4):AFTER,
+    .pie:nth-of-type(4):BEFORE {
+        background-color:orange;    
+    }
+    </style>
+    <!-- Wntuk warna pie setiap potong nya SELESAI -->
+    <!-- *********************************** -->
+    <!-- MUlai dan nilai potongnya MULAI -->
+    <style>
+        .pie[data-start="10"] {
+            -moz-transform: rotate(20deg);
+            -ms-transform: rotate(20deg);
+            -webkit-transform: rotate(20deg);
+            -o-transform: rotate(20deg);
+            transform:rotate(20deg);}
+
+        .pie[data-value="20"]:BEFORE {
+            -moz-transform: rotate(21deg);
+            -ms-transform: rotate(21deg);
+            -webkit-transform: rotate(21deg); 
+            -o-transform: rotate(21deg);
+            transform:rotate(21deg);}    
+    </style>
+    <!-- MUlai dan nilai potongnya SELESAI-->
+    <style>
+        .pie[data-start="20"] {
+            -moz-transform: rotate(20deg);
+            -ms-transform: rotate(20deg);
+            -webkit-transform: rotate(20deg);
+            -o-transform: rotate(20deg);
+            transform:rotate(20deg);}
+
+        .pie[data-value="100"]:BEFORE {
+            -moz-transform: rotate(101deg);
+            -ms-transform: rotate(101deg);
+            -webkit-transform: rotate(101deg); 
+            -o-transform: rotate(101deg);
+            transform:rotate(101deg);}    
+    </style>
+     <!-- style mualai dan nilai dari setiap potongnya -->
+    <style>
+        .pie[data-start="100"] {
+            -moz-transform: rotate(101deg);
+            -ms-transform: rotate(101deg);
+            -webkit-transform: rotate(101deg);
+            -o-transform: rotate(101deg);
+            transform:rotate(101deg);}
+
+
+        .pie[data-value="260"]:BEFORE {
+            -moz-transform: rotate(260deg);
+            -ms-transform: rotate(260deg);
+            -webkit-transform: rotate(260deg); 
+            -o-transform: rotate(260deg);
+            transform:rotate(260deg);}
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+    <!-- Modal Menambahkan User START -->
+    <div class="modal inmodal" id="myModalJurnal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">  
+        <div class="modal-content animated bounceIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <i class="fa fa-bars modal-icon"></i> 
+                    <h4 class="modal-title">Tambah Jurnal Umum</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group"><label class="col-lg-4 control-label">Tanggal</label>
+                            <div class="col-lg-8"><input type="date" placeholder="3" class="form-control"></div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-4 control-label">Kode</label>
+                            <div class="col-lg-8"><input type="text" placeholder="Isi Kode Jurnal ..." class="form-control"></div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-4 control-label">Vol.</label>
+                            <div class="col-lg-8"><input type="text" placeholder="3" class="form-control"></div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-4 control-label">Sat.</label>
+                            <div class="col-lg-8"><div class="input-group"><span class="input-group-addon">Rp.</span> <input type="text" class="form-control" placeholder="000000"><span class="input-group-addon">.00</span></div></div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-4 control-label">Harga Satuan</label>
+                            <div class="col-lg-8"><div class="input-group"><span class="input-group-addon">Rp.</span> <input type="text" class="form-control" placeholder="000000"> <span class="input-group-addon">.00</span></div></div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-4 control-label">Uraian</label>
+                            <div class="col-lg-8"><textarea class="form-control" rows="3" placeholder="Detail atau Uraian"></textarea></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Menambahkan User END -->
+    <!-- Modal Menambahkan User START -->
+    <div class="modal inmodal" id="myModalBuku" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">  
+        <div class="modal-content animated bounceIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <i class="fa fa-book modal-icon"></i> 
+                    <h4 class="modal-title">Tambah Buku Besar</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group"><label class="col-lg-4 control-label">Nama Buku Besar</label>
+                            <div class="col-lg-8"><input type="text" placeholder="3" class="form-control"></div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-4 control-label">Jenis</label>
+                         <div class="col-lg-8">
+                            <div>
+                                <label class="checkbox-inline"><input type="radio" checked="" value="Debit" id="aa " name="optionsRadios"> Debit</label>
+                                <label class="checkbox-inline"><input type="radio" checked="" value="Kredit" id="aa" name="optionsRadios"> Kredit</label>
+                            </div></div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-4 control-label">Nominal</label>
+                            <div class="col-lg-8"><div class="input-group"><span class="input-group-addon">Rp.</span> <input type="text" class="form-control" placeholder="000000"><span class="input-group-addon">.00</span></div></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Menambahkan User END -->
+
+    <!-- Header start -->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="img/profile_small.jpg" />
+                             </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="contacts.html">Contacts</a></li>
+                            <li class="divider"></li>
+                            <li><a href="login.html">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        ABC
+                    </div>
+                </li>
+                <li class="active">
+                    <a href="index.html"><i class="fa fa-area-chart"></i> <span class="nav-label">Project</span></a>
+                </li>
+                <li>
+                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Suplier</span></a>
+                </li>
+                <li>
+                    <a href="index.html"><i class="fa fa-bars"></i> <span class="nav-label">Jurnal Umum</span></a>
+                </li>
+                <li>
+                    <a href="index.html"><i class="fa fa-users"></i> <span class="nav-label">Manajemen User</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- header end -->
+
+    <!-- content start -->
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            <form role="search" class="navbar-form-custom" action="http://webapplayers.com/inspinia_admin-v2.3/search_results.html">
+                <div class="form-group">
+                    <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                </div>
+            </form>
+        </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+                </li>
+                <li>
+                    <a href="login.html">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Projects</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="basic.html">Projects</a>
+                        </li>
+                        <li class="active">
+                            <strong>Detail Project</strong>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        <div class="wrapper wrapper-content">
+        <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="m-b-md">
+                                        <a href="#" class="btn btn-white btn-xs pull-right">Edit project</a>
+                                        <h2>Gedung A Saintek</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:20px;">
+                                <div class="col-lg-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>Pemilik Project:</dt> <dd>Baso Kifliansyah</dd>
+                                        <dt>Lokasi:</dt><dd>Jl. kaki No. 123 C</dd><br>
+                                        <dt>Status:</dt><dd><span class="label label-danger">Belum Selesai</span></dd>
+                                    </dl>
+                                    <div class="flot-chart">
+                                        <div class="pie" data-start="0" data-value="20" ></div>
+                                        <div class="pie" data-start="20" data-value="100"></div>
+                                        <div class="pie big" data-start="100" data-value="260"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <ul class="stat-list">
+                                        <li>
+                                            <small>Modal</small>
+                                            <h2 class="no-margins">Rp. 46.000.000</h2>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar" style="width: 48%;"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <small>Hutang</small>
+                                            <h2 class="no-margins">Rp. 46.000.000</h2>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar" style="width: 48%;"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <small>Piutang</small>
+                                            <h2 class="no-margins">Rp. 46.000.000</h2>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar" style="width: 48%;"></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <ul class="stat-list">
+                                        <li>
+                                            <h2>Total</h2>
+                                        </li>
+                                        <li>
+                                            <small>Dana Masuk</small>
+                                            <h2 class="no-margins">Rp. 46.000.000</h2>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar" style="width: 48%;"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <small>Dana Keluar</small>
+                                            <h2 class="no-margins ">Rp. 46.000.000</h2>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar" style="width: 60%;"></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Jurnal Umum</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false"> Buku Besar</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <button class="btn btn-primary dim" type="button" data-toggle="modal" data-target="#myModalJurnal">
+                                        <i class="fa fa-bars"></i> | Tambah Jurnal Umum
+                                    </button>
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5><center>Jurnal Umum</center></h5>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <table class="table table-bordered">
+                                            <thead>         
+                                            <tr>
+                                                <th rowspan="2" style="padding-top:25px; text-align: center;" >Tanggal</th>
+                                                <th rowspan="2" style="padding-top:25px; text-align: center;">No.</th>
+                                                <th rowspan="2" style="padding-top:25px; text-align: center;">Kode</th>
+                                                <th colspan="4" style="text-align: center;">Deskripsi</th>
+                                                <th rowspan="2" style="padding-top:25px; text-align: center;">Total</th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: center;">Uraian</th>
+                                                <th style="text-align: center;">Vol.</th>
+                                                <th style="text-align: center;">Sat.</th>
+                                                <th style="text-align: center;">Harga Satuan</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>13 Desember 2016</td>
+                                                <td>1</td>
+                                                <td>A2347</td>
+                                                <td>Ini Uraian dari Isi </td>
+                                                <td>23 Pcs </td>
+                                                <td>Rp.150.000</td>
+                                                <td>Rp.150.000</td>
+                                                <td>Rp.150.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>13 Desember 2016</td>
+                                                <td>1</td>
+                                                <td>A2347</td>
+                                                <td>Ini Uraian dari Isi </td>
+                                                <td>23 Pcs </td>
+                                                <td>Rp.150.000</td>
+                                                <td>Rp.150.000</td>
+                                                <td>Rp.150.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>13 Desember 2016</td>
+                                                <td>1</td>
+                                                <td>A2347</td>
+                                                <td>Ini Uraian dari Isi </td>
+                                                <td>23 Pcs </td>
+                                                <td>Rp.150.000</td>
+                                                <td>Rp.150.000</td>
+                                                <td>Rp.150.000</td>
+                                            </tr>
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    <button class="btn btn-primary dim" type="button" data-toggle="modal" data-target="#myModalBuku">
+                                        <i class="fa fa-book"></i> | Tambah Buku Besar
+                                    </button>
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5><center>Buku Besar</center></h5>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <table class="table table-bordered">
+                                            <thead>         
+                                            <tr>
+                                                <th>Buku Besar</th>
+                                                <th>Debit</th>
+                                                <th>Kredit</th>
+                                                <th>Tanggal</th>
+                                                <th>Total</th>
+                                                <th width="65">Aksi</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding-top:14px;"><a href="#"><span class="main-list">Modal</span></a></td>
+                                                <td style="padding-top:14px;">Rp.10.000 </td>
+                                                <td style="padding-top:14px;">Rp.10.000 </td>
+                                                <td style="padding-top:14px;">Kamis, 27 Agustus 2016 </td>
+                                                <td style="padding-top:14px;">Rp.150.000</td>
+                                                <td style="padding-top:14px;">
+                                                    <button class="btn btn-primary btn-xs" type="button">
+                                                        <i class="fa fa-plus-square"></i>
+                                                    </button>
+                                                    <button class="btn btn-success btn-xs" type="button">
+                                                        <i class="fa fa-print"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="#"><span class="main-list">Penjualan</span></a></td>
+                                                <td>Rp.10.000 </td>
+                                                <td>Rp.10.000 </td>
+                                                <td>Kamis, 27 Agustus 2016 </td>
+                                                <td>Rp.150.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="#"><span class="main-list">Pembelian</span></a></td>
+                                                <td>Rp.10.000 </td>
+                                                <td>Rp.10.000 </td>
+                                                <td>Kamis, 27 Agustus 2016 </td>
+                                                <td>Rp.150.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="first-sub-list">Buku</span></td>
+                                                <td>Rp.10.000 </td>
+                                                <td>Rp.10.000 </td>
+                                                <td>Kamis, 27 Agustus 2016 </td>
+                                                <td>Rp.150.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="second-sub-list">Buku</span></td>
+                                                <td>Rp.10.000 </td>
+                                                <td>Rp.10.000 </td>
+                                                <td>Kamis, 27 Agustus 2016 </td>
+                                                <td>Rp.150.000</td>
+                                            </tr>
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+            
+            
+        </div>
+        <!-- content end -->
+        <!-- footer start -->
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+        <!-- footer end -->
+
+        </div>
+    </div>
+
+ 
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Peity -->
+    <script src="js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="js/demo/peity-demo.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+</body>
+</html>

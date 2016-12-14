@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Buku Besar</title>
+    <link rel="icon" type="images/png" href="img/icon.png">
+    <link href="s/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="s/animate.css" rel="stylesheet">
+    <link href="s/style.css" rel="stylesheet">
+</head>
+<body class="top-navigation">
+    <div id="wrapper">
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom white-bg">
+        <nav class="navbar navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <i class="fa fa-reorder"></i>
+                </button>
+                <a href="#" class="navbar-brand">Perusahaan ABC</a>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a aria-expanded="false" role="button" href="index.html"> Project</a>
+                    </li>
+                    <li>
+                        <a aria-expanded="false" role="button" href="suplier.html">Suplier</a>
+                    </li>
+                    <li>
+                        <a aria-expanded="false" role="button" href="#">Jurnal Umum</a>
+                    </li>
+                    <li>
+                        <a aria-expanded="false" role="button" href="#">Manajemen User</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>Detail Projects</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="index.html">Projects</a>m
+                    </li>
+                    <li class="active">
+                        <strong>Detail Project</strong>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="container">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="m-b-md">
+                                        <a href="#" class="btn btn-white btn-xs pull-right">Edit project</a>
+                                        <h2>Gedung A Saintek</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:20px;">
+                                <div class="col-lg-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>Pemilik Project:</dt> <dd>Baso Kifliansyah</dd>
+                                        <dt>Lokasi:</dt><dd>Jl. kaki No. 123 C</dd><br>
+                                        <dt>Status:</dt><dd><span class="label label-danger">Belum Selesai</span></dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-3">
+                                    <ul class="stat-list">
+                                        <li>
+                                            <small>Modal</small>
+                                            <h2 class="no-margins">Rp. 46.000.000</h2>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar" style="width: 48%;"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <small>Hutang</small>
+                                            <h2 class="no-margins">Rp. 46.000.000</h2>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar" style="width: 48%;"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <small>Piutang</small>
+                                            <h2 class="no-margins">Rp. 46.000.000</h2>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar" style="width: 48%;"></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <ul class="stat-list">
+                                        <li>
+                                            <h2>Total</h2>
+                                        </li>
+                                        <li>
+                                            <small>Dana Masuk</small>
+                                            <h2 class="no-margins">Rp. 46.000.000</h2>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar" style="width: 48%;"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <small>Dana Keluar</small>
+                                            <h2 class="no-margins ">Rp. 46.000.000</h2>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar" style="width: 60%;"></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary dim" type="button" data-toggle="modal" data-target="#myModal">
+                        <i class="fa fa-book"></i> | Tambah Buku Besar
+                    </button>
+                    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content animated bounceIn">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                    </button>
+                                    <i class="fa fa-book modal-icon"></i>
+                                    <h4 class="modal-title">Tambah Buku Besar</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">Nama Buku Utama</label>
+                                            <div class="col-lg-8"><input type="text" placeholder="Isi Nama Buku..." class="form-control"> 
+                                            </div>
+                                        </div>
+                                        <div class="form-group"><label class="col-lg-4 control-label">Jenis Buku</label>
+                                            <div class="col-lg-8"><input type="text" placeholder="Isi Jenis Buku..." class="form-control"> 
+                                            </div>
+                                        </div>
+                                        <div class="form-group"><label class="col-lg-4 control-label">Keterangan</label>
+                                            <div class="col-lg-8"><textarea class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">Batal</button>
+                                    <button type="button" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><center>Buku Besar</center></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama Buku Besar</th>
+                                <th>Debit</th>
+                                <th>Kredit</th>
+                                <th>Tanggal</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="#"><span class="main-list">Buku</span></a></b></td>
+                                <td>Rp.10.000 </td>
+                                <td>Rp.10.000 </td>
+                                <td>Kamis, 27 Agustus 2016 </td>
+                                <td>Rp.150.000</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><span class="first-sub-list">Buku</span></b></td>
+                                <td>Rp.10.000 </td>
+                                <td>Rp.10.000 </td>
+                                <td>Kamis, 27 Agustus 2016 </td>
+                                <td>Rp.150.000</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><span class="second-sub-list">Buku</span></b></td>
+                                <td>Rp.10.000 </td>
+                                <td>Rp.10.000 </td>
+                                <td>Kamis, 27 Agustus 2016 </td>
+                                <td>Rp.150.000</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+        <div class="footer">
+            <div>
+                <strong>Copyright</strong> Perusahaan ABC &copy; 2016
+            </div>
+        </div>
+        </div>
+        </div>
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+</body>
+
+</html>
