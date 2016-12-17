@@ -138,6 +138,14 @@
             </div>
         </div>
     </div>
+    <div id="toast-container" class="toast-top-right" aria-live="polite" role="alert" ng-show="tampilkantoast">
+        <div class="toast {{properties.warna}}" style="opacity: 0.896272;">
+            <div class="toast-progress" style="width: 100%;"></div>
+            <button type="button" class="toast-close-button" role="button">×</button>
+            <div class="toast-title">{{properties.judul}}</div>
+            <div class="toast-message">{{properties.isi}}</div>
+        </div>
+    </div>
 </span>
     <!-- Modal Menambahkan User END -->
         <!-- content end -->

@@ -82,3 +82,7 @@ function numbersonly(ini, e){
 
 }
 
+$('#lihat').click(function (){
+                // Display a success toast, with a title
+                toastr.success('Without any options','Simple notification!')
+            });

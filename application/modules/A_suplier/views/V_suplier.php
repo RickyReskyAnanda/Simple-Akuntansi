@@ -40,9 +40,9 @@
                             </div>
                             
                         <div class="col-sm-3 pull-right">
-                                    <div class="input-group"><input type="text" placeholder="Search" ng-model="q" class="input-sm form-control"/></div>
-                                </div>
-                        <table class="table table-stripped">
+                            <div class="input-group"><input type="text" placeholder="Search" ng-model="q" class="input-sm form-control"/></div>
+                        </div>
+                <table class="table table-stripped" style="font-size: 13px;">
                     <thead>
                     <tr>
                         <th>No.</th>
@@ -128,6 +128,14 @@
                     <button type="button" class="btn btn-primary" ng-click="simpandata()">Simpan</button>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="toast-container" class="toast-top-right" aria-live="polite" role="alert" ng-show="tampilkantoast">
+        <div class="toast {{properties.warna}}" style="opacity: 0.896272;">
+            <div class="toast-progress" style="width: 100%;"></div>
+            <button type="button" class="toast-close-button" role="button">×</button>
+            <div class="toast-title">{{properties.judul}}</div>
+            <div class="toast-message">{{properties.isi}}</div>
         </div>
     </div>
 </span>

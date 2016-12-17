@@ -20,6 +20,48 @@ class M_detail_project extends MY_Model {
         $this->db->where('jenis','lainnya');
         echo json_encode($this->db->get('tabel_buku_besar')->result_array());
     }
+    public function insert_data_buku_besar(){
+        $val = json_decode(file_get_contents('php://input'));
+        $data = array(
+            'jenis_buku'        => '0',
+            'jenis'             => 'lainnya', 
+            'nama_buku_besar'   => $val->data->nama_buku_besar,
+            'nominal'           => '0',
+            'pembayaran'        => $val->data->pembayaran,
+            'id_jurnal_umum'    => '0',
+            'tgl_pembuatan'     => date('Y-m-d'),
+            'id_user'           => '0',
+            'id_project'        => $val->id_project,
+        );
+        $this->db->insert('tabel_buku_besar',$data);
+
+        $this->db->where('id_project',$val->id_project);
+        $this->db->order_by('id_buku_besar','DESC');
+        $this->db->limit(1);
+        echo json_encode($this->db->get('tabel_buku_besar')->row_array());
+    }
+
+    public function update_data_buku_besar(){
+        $val = json_decode(file_get_contents('php://input'));
+        $data['nama_buku_besar'] = $val->data->nama_buku_besar;
+        $this->db->where('id_buku_besar',$val->data->id_buku_besar);
+        if($this->db->update('tabel_buku_besar',$data)){
+            echo "Berhasil Memperbaharui Data";
+        }else{
+            echo "Gagal Memperbaharui Data";
+        }
+    }
+
+    public function delete_data_buku_besar(){
+        $val = json_decode(file_get_contents('php://input'));
+        $this->db->where('id_buku_besar',$val->id);
+        $this->db->or_where('jenis_buku',$val->id);
+        if($this->db->delete('tabel_buku_besar')){
+            echo "Berhasil Menghapus Data";
+        }else{
+            echo "Gagal Menghapus Data";
+        }
+    }
 
     public function select_data_sub_buku_besar(){
         $val = json_decode(file_get_contents('php://input'));
@@ -29,7 +71,6 @@ class M_detail_project extends MY_Model {
         echo json_encode($this->db->get('tabel_buku_besar')->result_array());
     }
 
-
     public function insert_data_sub_buku_besar(){
         $val = json_decode(file_get_contents('php://input'));
         $data = array(
@@ -37,7 +78,7 @@ class M_detail_project extends MY_Model {
             'jenis'             => $val->jenis, 
             'nama_buku_besar'   => $val->data->nama_buku_besar,
             'nominal'           => $val->data->nominal,
-            'pembayaran'        => $val->data->pembayaran,
+            'pembayaran'        => $val->pembayaran,
             'id_jurnal_umum'    => '0',
             'tgl_pembuatan'     => date('Y-m-d'),
             'id_user'           => '0',
@@ -45,7 +86,18 @@ class M_detail_project extends MY_Model {
         );
         $this->db->insert('tabel_buku_besar',$data);
 
-        $this->perhitunganmodal($val->data->pembayaran,$val->id_project,$val->data->nominal);
+        $this->db->select('modal_masuk'); //mengambil data jumlah modal
+        $this->db->where('id_project',$val->id_project);
+        $modal_masuk=$this->db->get('tabel_project')->row_array();
+
+        if($val->data->jenis!="hutang"){
+            $this->perhitunganmodal($val->data->pembayaran,$val->id_project,$val->data->nominal);
+        }elseif($val->data->jenis=="hutang"){
+            $data['jenis']      = "hutang";
+            $data['pembayaran'] = "debit";
+            $data['jenis_buku'] = 0;
+            $this->db->insert('tabel_buku_besar',$data);
+        }
 
         $this->db->limit(1);
         $this->db->where('id_project',$val->id_project);
@@ -58,7 +110,6 @@ class M_detail_project extends MY_Model {
         $data = array(
             'nama_buku_besar'   => $val->data->nama_buku_besar,
             'nominal'           => $val->data->nominal,
-            'pembayaran'        => $val->data->pembayaran,
         );
         $this->db->where('id_buku_besar',$val->data->id_buku_besar);
         if($this->db->update('tabel_buku_besar',$data)){
@@ -66,30 +117,52 @@ class M_detail_project extends MY_Model {
         }else{
             echo "Gagal Memperbaharui Data";
         }
-
     }
 
     public function delete_data_sub_buku_besar(){
         $val = json_decode(file_get_contents('php://input'));
+        
+        if($val->data->jenis!="hutang"){
+            if ($val->data->pembayaran=="debit")$pembayaran="kredit";
+            elseif($val->data->pembayaran=="kredit")$pembayaran="debit";
 
-        if ($val->data->pembayaran=="debit")$pembayaran="kredit";
-        elseif($val->data->pembayaran=="kredit")$pembayaran="debit";
+            $this->perhitunganmodal($pembayaran,$val->id_project,$val->data->nominal);
 
-        $this->perhitunganmodal($pembayaran,$val->id_project,$val->data->nominal);
-
-        $this->db->where('id_buku_besar',$val->data->id_buku_besar);
-        if($this->db->delete('tabel_buku_besar')){
-            echo "Berhasil Menghapus Data";
+            $this->db->where('id_buku_besar',$val->data->id_buku_besar);
+            if($this->db->delete('tabel_buku_besar')){
+                echo "Berhasil Menghapus Data";
+            }else{
+                echo "Gagal Menghapus Data";
+            }
         }else{
-            echo "Gagal Menghapus Data";
+            $this->db->select('modal_masuk');
+            $this->db->where('id_project',$val->id_project);
+            $modal_masuk=$this->db->get('tabel_project')->row_array();
+            if($val->data->nominal<=$modal_masuk['modal_masuk']){
+                $pembayaran="kredit";
+                $this->perhitunganmodal($pembayaran,$val->id_project,$val->data->nominal);
+                $this->db->where('id_buku_besar',$val->data->id_buku_besar);
+                if($this->db->delete('tabel_buku_besar')){
+                    echo "Berhasil Menghapus Data";
+                }else{
+                    echo "Gagal Menghapus Data";
+                }
+            }else{
+                echo "0";
+            }
         }
     }
-
+//--------------------------- JURNAL UMUM ------------------------------------
     public function select_data_jurnal_umum(){
         $val = json_decode(file_get_contents('php://input'));
         $this->db->where('id_project',$val->id);
         $this->db->order_by('id_jurnal_umum','DESC');
         echo json_encode($this->db->get('tabel_jurnal_umum')->result_array());
+    }
+    public function select_data_nama_suplier(){
+        $this->db->select('id_suplier,nama_suplier');
+        $this->db->order_by('id_suplier','DESC');
+        echo json_encode($this->db->get('tabel_suplier')->result_array());
     }
     public function insert_data_jurnal_umum(){
         $val = json_decode(file_get_contents('php://input'));
@@ -144,7 +217,7 @@ class M_detail_project extends MY_Model {
         $this->db->where('id_project',$val->id_project);
         $modal_awal=$this->db->get('tabel_project')->row_array();
 
-        if($dataJurnal['total']<$modal_awal['modal_masuk']){
+        if($dataJurnal['total']<=$modal_awal['modal_masuk']){
             $this->perhitunganmodal('kredit',$val->id_project,$dataJurnal['total']);
         }elseif($dataJurnal['total']>$modal_awal['modal_masuk']){
             $dataBukuBesar['jenis']      = "hutang";

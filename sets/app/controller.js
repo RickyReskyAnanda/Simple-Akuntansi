@@ -1,30 +1,37 @@
-var app=angular.module('akuntanapp',["ngRoute"]);
+var app=angular.module('akuntanapp',["ngRoute","oitozero.ngSweetAlert"]);
 var linked ="http://localhost/akuntansi/";
-
 /**
 |---------------------------------------------------------------------------------------------------------------------------
 |                                               USER                                                                   |
 |---------------------------------------------------------------------------------------------------------------------------
 */
-app.controller('userctrl',function($scope,$http){
+app.controller('userctrl',function($scope,$http,SweetAlert,$timeout){
         $scope.simpan       = "Simpan";
         $scope.aksi         = "tambah";
         $scope.judulmodal   = "Tambah suplier";
         $scope.user     = {};
+        $scope.tampilkantoast=false;
 
+        $scope.properties={};
+        $scope.showtoast=function(warna,judul,isi){
+          $scope.tampilkantoast=true;
+          $scope.properties.warna=warna;
+          $scope.properties.judul=judul;
+          $scope.properties.isi=isi;
+        }
     /**
       |-----------------------------------------------------------------------------------------------
-      |                                   MENAMPILKAN DATA TABLE
+      |                                MENAMPILKAN DATA TABLE
       |-----------------------------------------------------------------------------------------------
       */
-          $http.post(linked+"A_user/select_data_user"
-            ).success(function(result){
-              $scope.userText     = result;
-              $scope.pagesizes    = [5,10,15,20];
-              $scope.pagesize     = $scope.pagesizes[0]; // jumlah baris dalam 1 halaman
-              $scope.currentpage  = 0;//lokasi halaman saat ini
-              $scope.pagenumber   = Math.ceil($scope.userText.length/$scope.pagesize);//jumlah total halaman
-          });
+        $http.post(linked+"A_user/select_data_user"
+          ).success(function(result){
+            $scope.userText     = result;
+            $scope.pagesizes    = [5,10,15,20];
+            $scope.pagesize     = $scope.pagesizes[0]; // jumlah baris dalam 1 halaman
+            $scope.currentpage  = 0;//lokasi halaman saat ini
+            $scope.pagenumber   = Math.ceil($scope.userText.length/$scope.pagesize);//jumlah total halaman
+        });
     /*
     |-------------------------------------------------------------------------------------------
     |                                 FUNGSI UNTUK MEMBUAT PAGINASI
@@ -66,8 +73,6 @@ app.controller('userctrl',function($scope,$http){
     //   |                               INSERT suplier
     //   |-----------------------------------------------------------------------------------------------
     //   */
-            
-
             $scope.tambahdata = function(){
               $http.post(
                 linked+"A_user/insert_data_user",
@@ -81,7 +86,6 @@ app.controller('userctrl',function($scope,$http){
                 alert("Gagal menyimpan data !");
               });
             };
-
     /**
        |-----------------------------------------------------------------------------------------------
       |                               EDIT DATA
@@ -132,19 +136,33 @@ app.controller('userctrl',function($scope,$http){
       |-----------------------------------------------------------------------------------------------
       */
             $scope.hapusdata = function(id,index){
-                if (confirm("Apakah anda ingin menghapus ? ")){
-                    $http.post(
-                      linked+"A_user/delete_data_user",
-                      {
-                        id:id
-                      }
-                    ).success(function(){
-                      $scope.userText.splice(index,1);
-                      alert("Berhasil Menghapus Data");
+                SweetAlert.swal({
+                  title: "Apakah anda ingin menghapus data ?",
+                  text: "Seluruh data project user akan ikut terhapus !",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "Yes",
+                  closeOnConfirm: true,
+                  closeOnCancel: true
+                }, 
+                function(isConfirm){
+                  if(isConfirm){
+                    $http.post(linked+"A_user/delete_data_user",
+                    {
+                      id:id
+                    }).success(function(result){
+                        $scope.showtoast('toast-hijau','Hapus Data',"Berhasil Menghapus Data");
+                        $scope.userText.splice(index,1);
+                        $timeout(function(){$scope.tampilkantoast=false;}, 4000);
                     }).error(function(){
-                      alert("Gagal menghapus data");
+                        $scope.showtoast('toast-merah','Hapus Data',"Gagal Menghapus Data");
+                        $timeout(function(){$scope.tampilkantoast=false;}, 4000);
                     });
-                }
+                  } else {
+                      SweetAlert.swal("Data anda aman!");
+                  }
+                });
             };
 
   }); //end-suplier
@@ -324,8 +342,6 @@ app.controller('projectctrl',function($scope,$http){
             ).success(function(result){
               $scope.projectText  = result;
           });
- 
-
 /**
       |-----------------------------------------------------------------------------------------------
       |                               VIEW MODAL TAMBAH Project
@@ -334,17 +350,13 @@ app.controller('projectctrl',function($scope,$http){
             $scope.viewtambah = function(){
               $scope.simpan     = "Simpan";
               $scope.judulmodal = "Tambah";
-              $scope.aksi       = "tambah";
               $scope.project    = {};
             }
-
     /**
       |-----------------------------------------------------------------------------------------------
       |                               INSERT project
       |-----------------------------------------------------------------------------------------------
       */
-            
-
             $scope.tambahdata = function(){
               $http.post(
                 linked+"A_project/insert_data_project",
@@ -389,63 +401,75 @@ app.controller('projectctrl',function($scope,$http){
               });
             }
           };
-          
-    // /**
-    //   |-----------------------------------------------------------------------------------------------
-    //   |                               PILIHAN SIMPAN DATA
-    //   |-----------------------------------------------------------------------------------------------
-    //   */
-    //       $scope.simpandata = function(){
-    //         switch($scope.aksi){
-    //           case "tambah":
-    //             $scope.tambahdata();
-    //           break;
-              
-    //           case "ubah":
-    //             $scope.ubahdata();
-    //           break;
-    //         }
-    //       };
 
-
-            $scope.hapusdata = function(id,index){
-                if (confirm("Apakah anda ingin menghapus ? ")){
-                    $http.post(
-                      linked+"A_project/delete_data_project",
-                      {
-                        id:id
-                      }
-                    ).success(function(){
-                      $scope.projectText.splice(index,1);
-                      alert("Berhasil Menghapus Data");
-                    }).error(function(){
-                      alert("Gagal menghapus data");
-                    });
-                }
-            };
+    $scope.hapusdata = function(id,index){
+        if (confirm("Apakah anda ingin menghapus ? ")){
+            $http.post(
+              linked+"A_project/delete_data_project",
+              {
+                id:id
+              }
+            ).success(function(){
+              $scope.projectText.splice(index,1);
+              alert("Berhasil Menghapus Data");
+            }).error(function(){
+              alert("Gagal menghapus data");
+            });
+        }
+    };
 
   }); //end-suplier
-app.controller('detailprojectctrl',function($scope,$http,$routeParams){
+app.controller('detailprojectctrl',function($scope,$http,$routeParams,$timeout,SweetAlert){
     $scope.aktif1="active";
     $scope.aktif2="";
     $scope.tabulasi=true;
     $scope.buku={};
     $scope.detailproject=[];
     $scope.tampilformjurnal=false;
+    $scope.tampilkantoast=false;
+
+    //-------------effect loading-------------
+      $scope.properties={};
+      $scope.showtoast=function(warna,judul,isi){
+        $scope.tampilkantoast=true;
+        $scope.properties.warna=warna;
+        $scope.properties.judul=judul;
+        $scope.properties.isi=isi;
+      }
+    //-----------end. effect-----------------
 
     $scope.selectDataDetailProject=function(){
 
     $http.post(linked+"A_project/select_data_detail_project/",
     {
       id:$routeParams.id 
-    }
-      ).success(function(result){
+    }).success(function(result){
           $scope.detailproject  = result;
       }).error(function(){
           alert("Gagal mengambil data");
       });
     }
     $scope.selectDataDetailProject();
+
+
+//-------------------- Edit Project ------------------------
+  // $scope.datadetail={};
+  // $scope.vieweditproject=function(){
+  //   $scope.datadetail=$scope.detailproject;
+  // }
+  // $scope.editdataproject=function(){
+  //   $http.post(linked+"A_project/update_data_project",
+  //     {
+  //       id:id
+  //     }).success(function(){
+  //           alert('Berhasil menghapus data');
+  //           $scope.jurnalumumText.splice(index,1);
+  //       }).error(function(){
+  //           alert("Gagal menghapus data");
+  //       });
+    
+  // }
+//---------------------batas detail-------------
 
     $scope.tabBerganti=function(nilai){
       if(nilai==1){
@@ -462,13 +486,16 @@ app.controller('detailprojectctrl',function($scope,$http,$routeParams){
     $scope.totalbuku={};
     $scope.totalbuku.kredit=0;
     $scope.totalbuku.debit=0;
-    $http.post(linked+"A_project/select_data_buku_besar/"
-      ).success(function(result){
-          $scope.kode  = result;
-      }).error(function(){
-          alert("Gagal mengambil data");
-      });
-
+    $scope.selectkode=function(){
+      $http.post(linked+"A_project/select_data_buku_besar/"
+        ).success(function(result){
+            $scope.kode  = result;
+        }).error(function(){
+            $scope.showtoast('toast-orange','Load Data',"Gagal Mengambil Data");
+            $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+        });
+    }
+    $scope.selectkode();
     $http.post(
         linked+"A_project/select_data_sub_buku_besar",
         {
@@ -479,23 +506,24 @@ app.controller('detailprojectctrl',function($scope,$http,$routeParams){
         $scope.projectText=result;
         $scope.perhitungankreditdebit();
       }).error(function(){
-        alert("Gagal mengambil data");
+        $scope.showtoast('toast-orange','Load Data',"Gagal Mengambil Data");
+        $timeout(function(){$scope.tampilkantoast=false;}, 4000);
       });
 
-        
-        // alert(total);
-
     $scope.view={};
-
     $scope.view.jenis      = 'modal';
     $scope.view.jenis_buku = '0';
     $scope.view.kode        = 'Modal';
+    $scope.view.pembayaran = 'debit';
+
     $scope.tombolhapus=false;
 
-    $scope.tabbukubesar = function(jenis_buku,jenis,kode){
+    $scope.tabbukubesar = function(jenis_buku,jenis,kode,pembayaran){
       $scope.view.jenis      = jenis;
       $scope.view.kode       = kode;
       $scope.view.jenis_buku = jenis_buku;
+      $scope.view.pembayaran = pembayaran;
+
       if(jenis=='lainnya')$scope.tombolhapus=true;
       else $scope.tombolhapus=false;
       $http.post(
@@ -508,21 +536,109 @@ app.controller('detailprojectctrl',function($scope,$http,$routeParams){
         $scope.projectText=result;
         $scope.perhitungankreditdebit();
       }).error(function(){
-        alert("Gagal mengambil data");
+        $scope.showtoast('toast-orange','Load Data',"Gagal Mengambil Data");
+        $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+      });
+    }
+    //-------------- KODE BUKU BESAR -----------------------
+      $scope.isikode = {};
+      $scope.showpembayaran=false;
+
+    $scope.viewtambahkode= function(){
+      $scope.showpembayaran=true;
+      $scope.aksikode="tambah";
+      $scope.isikode = {};
+      $scope.isikode.pembayaran = 'debit';
+    }
+
+    $scope.vieweditkode= function(){
+      $scope.aksikode="ubah";
+      $scope.showpembayaran=false;
+      $scope.isikode.id_buku_besar = $scope.view.jenis_buku;
+      $scope.isikode.nama_buku_besar = $scope.view.kode;
+    }
+
+    $scope.tambahkode=function(){
+      $http.post(
+        linked+"A_project/insert_data_buku_besar/",
+        {
+          data        : $scope.isikode,
+          id_project  : $routeParams.id 
+        }
+      ).success(function(result){
+        $scope.showtoast('toast-hijau','Input Data',"Berhasil Menginput Data");
+        $scope.kode.push(result);
+        $scope.isikode={};
+        $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+      }).error(function(){
+        $scope.showtoast('toast-merah','Input Data',"Gagal Menginput Data");
+        $timeout(function(){$scope.tampilkantoast=false;}, 4000);
       });
     }
 
-    $scope.viewtambahkode= function(){
-      $scope.buku       = {};
-      $scope.buku       = $scope.view;
-      $scope.buku.pembayaran = 'debit';
+    $scope.editkode=function(){
+      $http.post(
+        linked+"A_project/update_data_buku_besar/",
+        {
+          data : $scope.isikode //data kembalian
+        }).success(function(result){
+            $scope.showtoast('toast-hijau','Edit Data',result);
+            $scope.selectkode();
+            $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+          }).error(function(){
+            $scope.showtoast('toast-merah','Edit Data',"Gagal Memperbaharui Data");
+            $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+      });
     }
+
+    $scope.hapuskode=function(){
+      SweetAlert.swal({
+            title: "Apakah anda ingin menghapus data ?",
+            text: "Seluruh data didalamnya akan terhapus !",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, 
+        function(isConfirm){
+            if(isConfirm){
+              $http.post(linked+"A_project/delete_data_buku_besar",
+              {
+                id:$scope.view.jenis_buku
+              }).success(function(result){
+                    $scope.showtoast('toast-hijau','Hapus Data',result);
+                    $scope.selectkode();
+                    $scope.selectDataDetailProject();
+                    $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+                }).error(function(){
+                    $scope.showtoast('toast-merah','Hapus Data',"Gagal Memperbaharui Data");
+                    $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+                });
+            } else {
+                SweetAlert.swal("Data anda aman!");
+            }
+        });
+    }
+
+    $scope.simpankode = function(){
+      switch($scope.aksikode){
+        case "tambah":
+          $scope.tambahkode();
+        break;
+        case "ubah":
+          $scope.editkode();
+        break;
+      }
+    };
+    //----------------------------------------Batas Kode----------------------------------------------------
+
     $scope.viewtambahbuku= function(){
       $scope.aksi       = "tambah";
       $scope.judulmodal = "Tambah";
       $scope.buku = {};
       $scope.buku = $scope.view;
-      $scope.buku.pembayaran = 'debit';
       $scope.buku.nominal = '';
       $scope.buku.nama_buku_besar="";
     }
@@ -540,7 +656,7 @@ app.controller('detailprojectctrl',function($scope,$http,$routeParams){
           }
     /**
       |-----------------------------------------------------------------------------------------------
-      |                               INSERT suplier
+      |                               INSERT 
       |-----------------------------------------------------------------------------------------------
       */
             $scope.tambahsubbuku= function(){
@@ -549,17 +665,20 @@ app.controller('detailprojectctrl',function($scope,$http,$routeParams){
                 {
                   jenis       : $scope.view.jenis,
                   jenis_buku  : $scope.view.jenis_buku,
+                  pembayaran : $scope.view.pembayaran,
                   data        : $scope.buku, //data kembalian
                   id_project  : $routeParams.id 
                 }
               ).success(function(result){
-                alert('Berhasil Menginput data');
+                $scope.showtoast('toast-hijau','Input Data',"Berhasil Menginput Data");
                 $scope.projectText.unshift(result);
                 $scope.perhitungankreditdebit();
                 $scope.selectDataDetailProject();
                 $scope.buku={};
+                $timeout(function(){$scope.tampilkantoast=false;}, 4000);
               }).error(function(){
-                alert("Gagal menyimpan data !");
+                $scope.showtoast('toast-merah','Tambah Data',"Gagal Menginput Data");
+                $timeout(function(){$scope.tampilkantoast=false;}, 4000);
               });
             };
     /**
@@ -583,10 +702,12 @@ app.controller('detailprojectctrl',function($scope,$http,$routeParams){
                 data: $scope.buku
               }
             ).success(function(data){
-              alert(data);
+              $scope.showtoast('toast-hijau','Edit Data',data);
               $scope.perhitungankreditdebit();
+              $timeout(function(){$scope.tampilkantoast=false;}, 4000);
            }).error(function(){
-              alert("Gagal mengubah data");
+              $scope.showtoast('toast-merah','Tambah Data',"Gagal Memperbaharui Data");
+                $timeout(function(){$scope.tampilkantoast=false;}, 4000);
             });
           };
           
@@ -607,23 +728,44 @@ app.controller('detailprojectctrl',function($scope,$http,$routeParams){
           };
 
     $scope.hapussubbuku=function(bb,index){
-      if(confirm("Apakah anda ingin menghapus data ? ")){
-        $http.post(linked+"A_project/delete_data_sub_buku_besar",
-          {
-            data:bb,
-            id_project : $routeParams.id
-          }).success(function(result){
-                alert(result);
-                $scope.projectText.splice(index,1);
-                $scope.perhitungankreditdebit();
-                $scope.selectDataDetailProject();
-            }).error(function(){
-                alert("Gagal menghapus data");
-            });
-        }
+        SweetAlert.swal({
+            title: "Apakah anda ingin menghapus data ?",
+            text: "Data tidak akan dikembalikan setelah menghapus data!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: true,
+            closeOnCancel: false
+        }, 
+        function(isConfirm){
+            if(isConfirm){
+              $http.post(linked+"A_project/delete_data_sub_buku_besar",
+              {
+                data:bb,
+                id_project : $routeParams.id
+              }).success(function(result){
+                  if(result=="0"){
+                    $scope.showtoast('toast-orange','Hapus Data',"Modal Tidak Mencukupi");
+                    $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+                  }else{
+                    $scope.showtoast('toast-hijau','Hapus Data',"Berhasil Menghapus Data");
+                    $scope.projectText.splice(index,1);
+                    $scope.perhitungankreditdebit();
+                    $scope.selectDataDetailProject();
+                    $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+                  }
+                }).error(function(){
+                    $scope.showtoast('toast-merah','Hapus Data',"Gagal Menghapus Data");
+                    $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+                });
+            } else {
+                SweetAlert.swal("Data anda aman!");
+            }
+        });
     }
 
-// //----------------------jurnaal--------------------------------------------------------------------------------
+    //----------------------jurnal--------------------------------------------------------------------------------
 
     $http.post(linked+"A_project/select_data_jurnal_umum",
     {
@@ -631,11 +773,12 @@ app.controller('detailprojectctrl',function($scope,$http,$routeParams){
     }).success(function(result){
           $scope.jurnalumumText = result;
       }).error(function(){
-          alert("Gagal mengambil data");
+          $scope.showtoast('toast-orange','Load Data',"Gagal Mengambil Data");
+          $timeout(function(){$scope.tampilkantoast=false;}, 4000);
       });
     /**
       |-----------------------------------------------------------------------------------------------
-      |                               VIEW MODAL TAMBAH suplier
+      |                               VIEW MODAL TAMBAH
       |-----------------------------------------------------------------------------------------------
       */
     $scope.viewtambahjurnal = function(){
@@ -646,7 +789,7 @@ app.controller('detailprojectctrl',function($scope,$http,$routeParams){
     }
    /*
       |-----------------------------------------------------------------------------------------------
-      |                               INSERT suplier
+      |                               INSERT
       |-----------------------------------------------------------------------------------------------
       */
     $scope.tambahdatajurnal = function(){
@@ -657,24 +800,44 @@ app.controller('detailprojectctrl',function($scope,$http,$routeParams){
           id_project:$routeParams.id
         }
       ).success(function(result){
-        alert('Berhasil Menginput data');
-        $scope.jurnalumumText.unshift(result);
+          $scope.showtoast('toast-hijau','Tambah Data',"Berhasil Menyimpan Data");
+          $scope.jurnalumumText.unshift(result);
+          $timeout(function(){$scope.tampilkantoast=false;}, 4000);
       }).error(function(){
-        alert("Gagal menyimpan data !");
+          $scope.showtoast('toast-merah','Tambah Data',"Gagal Menyimpan Data");
+          $timeout(function(){$scope.tampilkantoast=false;}, 4000);
       });
     };
 
     $scope.hapusdatajurnal=function(id,index){
-      if(confirm("Apakah anda ingin menghapus data ? ")){
-        $http.post(linked+"A_project/delete_data_jurnal_umum",
-          {
-            id:id
-          }).success(function(){
-                alert('Berhasil menghapus data');
-                $scope.jurnalumumText.splice(index,1);
-            }).error(function(){
-                alert("Gagal menghapus data");
-            });
-        }
+        SweetAlert.swal({
+            title: "Apakah anda ingin menghapus data ?",
+            text: "Data tidak akan dikembalikan setelah menghapus data!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, 
+        function(isConfirm){
+            if(isConfirm){
+              $http.post(linked+"A_project/delete_data_jurnal_umum",
+              {
+                id:id
+              }).success(function(){
+                    $scope.showtoast('toast-hijau','Hapus Data',"Berhasil Menghapus Data");
+                    $scope.jurnalumumText.splice(index,1);
+                    $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+                }).error(function(){
+                    $scope.showtoast('toast-merah','Hapus Data',"Gagal Menghapus Data");
+                    $timeout(function(){$scope.tampilkantoast=false;}, 4000);
+                });
+            } else {
+                SweetAlert.swal("Data anda aman!");
+            }
+        });
     }
+
+
 });

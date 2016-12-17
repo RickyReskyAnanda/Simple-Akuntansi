@@ -53,23 +53,21 @@ class A_project extends MY_Controller{
         public function select_data_buku_besar(){
             $this->M_detail_project->select_data_buku_besar();
         }
+            public function insert_data_buku_besar(){
+                $this->M_detail_project->insert_data_buku_besar();
+            }
+            public function update_data_buku_besar(){
+                $this->M_detail_project->update_data_buku_besar();
+            }
+            public function delete_data_buku_besar(){
+                $this->M_detail_project->delete_data_buku_besar();
+            }
         public function select_data_sub_buku_besar(){
             $this->M_detail_project->select_data_sub_buku_besar();
-        }
-
-        public function insert_data_sub_buku_besar(){
-            $this->M_detail_project->insert_data_sub_buku_besar();
-        }
-        public function update_data_sub_buku_besar(){
-            $this->M_detail_project->update_data_sub_buku_besar();
-        }
-        public function delete_data_sub_buku_besar(){
-            $this->M_detail_project->delete_data_sub_buku_besar();
         }
         public function select_data_jurnal_umum(){
             $this->M_detail_project->select_data_jurnal_umum();
         }
-
         public function insert_data_jurnal_umum(){
             $this->M_detail_project->insert_data_jurnal_umum();
         }

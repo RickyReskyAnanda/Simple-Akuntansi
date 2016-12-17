@@ -1552,9 +1552,6 @@ a.list-group-item.active:focus {
 .legendLabel {
   padding-left: 5px;
 }
-.stat-list li:first-child {
-  margin-top: 0;
-}
 .stat-list {
   list-style: none;
   padding: 0;
@@ -2416,9 +2413,6 @@ label.error {
 }
 #toast-container > .toast-info:before {
   content: "\f005";
-}
-#toast-container > .toast-success:before {
-  content: "\f00C";
 }
 #toast-container > div {
   -moz-box-shadow: 0 0 3px #999;
@@ -3512,7 +3506,6 @@ body.body-small .footer.fixed {
   border-top: 1px solid #e7eaec;
   line-height: 1.42857;
   padding: 8px;
-  font-size: 13px;
   vertical-align: top;
 }
 /* PANELS */

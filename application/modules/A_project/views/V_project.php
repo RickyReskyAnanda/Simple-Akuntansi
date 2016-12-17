@@ -57,74 +57,76 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title {{val.status}}">
-                            <a ng-if="val.status=='berjalan'" href="" class="btn btn-primary btn-sm pull-right" type="button" role="button" ng-click="ubahstatus(val.id_project,val.status,$index,'Ingin Menyelesaikan Project Ini ?')" style="margin-left: 10px;">
+                            <a ng-if="val.status=='berjalan'" href="" class="btn btn-primary btn-sm pull-right" type="button" role="button" ng-click="ubahstatus(val.id_project,val.status,$index,'Ingin Menyelesaikan Project Ini ?')">
                                 <i class="fa fa-check"></i>&nbsp;| Belum Selesai
                             </a>
-                            <a ng-if="val.status=='selesai'" href="" class="btn btn-primary btn-sm pull-right" type="button" role="button" ng-click="ubahstatus(val.id_project,val.status,$index,'Ingin Mengubah Status Project Ini ?')" style="margin-left: 10px;">
+                            <a ng-if="val.status=='selesai'" href="" class="btn btn-primary btn-sm pull-right" type="button" role="button" ng-click="ubahstatus(val.id_project,val.status,$index,'Ingin Mengubah Status Project Ini ?')">
                                 <i class="fa fa-check"></i>&nbsp;| Selesai
                             </a>
-                            <button class="btn btn-danger btn-sm pull-right" ng-click="hapusdata(val.id_project,$index)"><i class="fa fa-trash"></i>&nbsp;| Hapus Project</button>
+                            <button class="btn btn-danger btn-sm pull-right" style="margin: 0px 7px;" ng-click="hapusdata(val.id_project,$index)"><i class="fa fa-trash"></i>&nbsp;| Hapus Project</button>
 
-                            <h2>{{val.nama_project}}</h2>
-                            <a href="#/detail-project/{{val.id_project}}" class="btn btn-primary btn-sm" type="button" role="button" ><i class="fa fa-eye"></i>&nbsp;| Detail</a>
+                            <a href="#/detail-project/{{val.id_project}}" class="btn btn-info btn-sm pull-right" type="button" role="button"><i class="fa fa-eye"></i>&nbsp;| Detail</a>
+
+                            <h2><b>{{val.nama_project}}</b></h2>
                         </div>
                         <div class="ibox-content">
                             <div class="m-t-sm">
                                 <div class="row">
                                     <div class="col-md-4">
-                                    <div>
-                                        <canvas id="lineChart" height="114"></canvas>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                    <dl class="dl-horizontal">
-                                            <dt>Pemilik Project: </dt><dd>{{val.pemilik}}</dd>
-                                            <dt>Lokasi: </dt><dd>{{val.lokasi}}</dd>
-                                            <dt>Tahun: </dt><dd>{{val.tahun}}</dd>
+                                        <dl class="dl-vertical">
+                                            <dt class="badge badge-info"><i class="fa fa-user"></i> Pemilik Project </dt>
+                                            <dd style="margin: 5px 18px;">{{val.pemilik}}</dd><hr>
+                                            <dt class="badge badge-info"><i class="fa fa-map-marker"></i> Lokasi </dt>
+                                            <dd style="margin: 5px 18px;">{{val.lokasi}}</dd><hr>
+                                            <dt class="badge badge-info"><i class="fa fa-calendar"></i> Tahun </dt>
+                                            <dd style="margin: 5px 18px;">{{val.tahun}}</dd>
                                         </dl>
                                     </div>
-                                    <div class="col-md-4">
-                                        <ul class="stat-list m-t-lg">
-                                            <li>
-                                                <h2 class="no-margins betul" >Rp. 46.000.000</h2>
-                                                <small>Jumlah Pembelian</small>
-                                                <div class="progress progress-mini">
-                                                    <div class="progress-bar" style="width: 48%;"></div>
-                                                </div>
+                                    <div class="col-md-8">
+                                        <ul class="stat-list">
+                                            <li class="col-md-4"> <span class="badge badge-warning">DEBIT</span>
+                                                <ul class="stat-list">
+                                                <li class="col-md-12">
+                                                    <h2 class="no-margins betul" >Rp. 46.000.000</h2>
+                                                    <div class="progress progress-mini">
+                                                        <div class="progress-bar" style="width: 100%;"></div>
+                                                    </div>
+                                                </li>
+                                                </ul>
                                             </li>
-                                            <li>
-                                                <h2 class="no-margins ">Rp. 46.000.000</h2>
-                                                <small>Jumlah Hutang</small>
-                                                <div class="progress progress-mini">
-                                                    <div class="progress-bar" style="width: 60%;"></div>
-                                                </div>
+                                            <li class="col-md-4"> <span class="badge badge-warning">KREDIT</span>
+                                                <ul class="stat-list">
+                                                <li class="col-md-12">
+                                                    <h2 class="no-margins betul" >Rp. 46.000.000</h2>
+                                                    <div class="progress progress-mini">
+                                                        <div class="progress-bar" style="width: 100%;"></div>
+                                                    </div>
+                                                </li>
+                                                </ul>
                                             </li>
-                                            <li>
-                                                <h2 class="no-margins">Rp. 46.000.000</h2>
-                                                <small>Jumlah Pengajian</small>
-                                                <div class="progress progress-mini">
-                                                    <div class="progress-bar" style="width: 48%;"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <h2 class="no-margins ">Rp. 46.000.000</h2>
-                                                <small>Jumlah Piutang</small>
-                                                <div class="progress progress-mini">
-                                                    <div class="progress-bar" style="width: 60%;"></div>
-                                                </div>
+                                            <li class="col-md-4"> <span class="badge badge-warning">SALDO</span>
+                                                <ul class="stat-list">
+                                                <li class="col-md-12">
+                                                    <h2 class="no-margins betul" >Rp. 46.000.000</h2>
+                                                    <div class="progress progress-mini">
+                                                        <div class="progress-bar" style="width: 100%;"></div>
+                                                    </div>
+                                                </li>
+                                                </ul>
                                             </li>
                                         </ul>
+                                        </div>
                                     </div>
-                                </div></div>
-                            </div>
-                            <div class="m-t-md">
-                                <small class="pull-right">
-                                    <i class="fa fa-clock-o"> </i>
-                                    Terakhir diubah 16.07.2015
-                                </small>
-                                <small>
-                                    <i class="fa fa-calendar-o"></i> Selasa, 1 November 2016 - Rabu, 30 November 2016
-                                </small>
+                                </div>
+                                <div class="m-t-md">
+                                    <small class="pull-right">
+                                        <i class="fa fa-clock-o"> </i>
+                                        Terakhir diubah 16.07.2015
+                                    </small>
+                                    <small>
+                                        <i class="fa fa-calendar-o"></i> Selasa, 1 November 2016 - Rabu, 30 November 2016
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>

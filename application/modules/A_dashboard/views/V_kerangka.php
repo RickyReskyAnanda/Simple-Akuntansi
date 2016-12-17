@@ -8,6 +8,8 @@
     <link href="<?=base_url()?>sets/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="<?=base_url()?>sets/css/animate.css" rel="stylesheet">
     <link href="<?=base_url()?>sets/css/style.css" rel="stylesheet">
+    <link href="<?=base_url()?>sets/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="<?=base_url()?>sets/node_modules/sweetalert/lib/sweet-alert.css">
     <script src="<?=base_url()?>sets/angularjs/angular.js"></script>
     <script src="<?=base_url()?>sets/angularjs/angular-route.js"></script>
     <script src="<?=base_url()?>sets/app/controller.js"></script>
@@ -20,38 +22,33 @@
     <div id="wrapper">
 
     <!-- Header start -->
-    <nav class="navbar-default navbar-static-side" role="navigation">
+    <nav class="navbar-default navbar-static-side" role="navigation" style="position: fixed;">
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
-                    <div class="dropdown profile-element"> <span>
-                            <img alt="image" class="img-circle" src="<?=base_url()?>sets/img/profile_small.jpg" />
+                    <div class="dropdown profile-element" style="margin-bottom: 10px;"> <span>
+                            <img alt="image" width="90px" class="img-circle" src="<?=base_url()?>sets/img/profile_small.jpg" />
                              </span>
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
-                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="profile.html">Profile</a></li>
-                            <li><a href="contacts.html">Contacts</a></li>
-                            <li class="divider"></li>
-                            <li><a href="login.html">Logout</a></li>
-                        </ul>
+                             <span class="clear" ><span class="block m-t-sm"><strong>Muhammad Juanda B</strong></span></span>
                     </div>
                     <div class="logo-element">
                         ABC
                     </div>
                 </li>
-                <li class="active">
+                <li>
                     <a href="#/"><i class="fa fa-area-chart"></i> <span class="nav-label">Project</span></a>
                 </li>
                 <li>
                     <a href="#/suplier"><i class="fa fa-th-large"></i> <span class="nav-label">Suplier</span></a>
                 </li>
                 <li>
-                    <a href="#/kontak"><i class="fa fa-user"></i> <span class="nav-label">Kontak</span></a>
+                    <a href="#/kontak"><i class="fa fa-th-large"></i> <span class="nav-label">Kontak</span></a>
                 </li>
                 <li>
                     <a href="#/user"><i class="fa fa-users"></i> <span class="nav-label">Manajemen User</span></a>
+                </li>
+                <li>
+                    <a href="#/user"><i class="fa fa-user"></i> <span class="nav-label">Profile</span></a>
                 </li>
             </ul>
         </div>
@@ -89,7 +86,7 @@
                 10GB of <strong>250GB</strong> Free.
             </div>
             <div>
-                <strong>Copyright</strong> Example Company &copy; 2014-2015
+                <strong>Copyright</strong> Exomatik &copy; 2016
             </div>
         </div>
         <!-- footer end -->
@@ -97,17 +94,16 @@
         </div>
     </div>
 
-     <script src="<?=base_url()?>sets/js/jquery-2.1.1.js"></script>
-     <script src="<?=base_url()?>sets/js/my.js"></script>
-
+    <script src="<?=base_url()?>sets/js/jquery-2.1.1.js"></script>
+    <script src="<?=base_url()?>sets/node_modules/angular-sweetalert/SweetAlert.min.js"></script>
+    <script src="<?=base_url()?>sets/node_modules/sweetalert/lib/sweet-alert.min.js"></script>
     <script src="<?=base_url()?>sets/js/bootstrap.min.js"></script>
     <script src="<?=base_url()?>sets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="<?=base_url()?>sets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-    
     <!-- Custom and plugin javascript -->
     <script src="<?=base_url()?>sets/js/inspinia.js"></script>
     <script src="<?=base_url()?>sets/js/plugins/pace/pace.min.js"></script>
+    <script src="<?=base_url()?>sets/js/plugins/toastr/toastr.min.js"></script>
 
 </body>
 </html>

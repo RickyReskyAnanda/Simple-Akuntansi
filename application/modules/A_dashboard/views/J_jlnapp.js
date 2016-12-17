@@ -34,6 +34,11 @@
                 controller  : "userctrl"
             })
 
+            .when("/profile", {
+                templateUrl : "<?=base_url('A_profile')?>"
+                // controller  : "profilectrl"
+            })
+
             .when("/errorpage", {
                 templateUrl : "<?=base_url('A_tambahan')?>"
             })
